@@ -1,9 +1,6 @@
 "use strict"
 
-const users = {
-    id: ["1234", "12345", "123"],
-    psword: ["1234", "12345","123"], 
-};
+const User = require("../../models/User");
 
 const output = {
     home: (req, res)=>{
@@ -18,22 +15,10 @@ const output = {
 
 const process = {
     login: (req, res) =>{
-        const id = req.body.id,
-        psword = req.body.psword;
-
-        if(users.id.includes(id)){
-            const idx = users.id.indexOf(id);
-            if(users.psword[idx] === psword){
-                return res.json({
-                    success: true,
-                });
-            }
-        }
-
-        return res.json({
-            success: false,
-            msg: "로그인에 실패했습니다.",
-        });
+        const user = new User(req.body);
+        const response = user.login();
+        console.log(response);
+        return res.json(response);
     },
 };
 
@@ -42,3 +27,4 @@ module.exports = {
     output,
     process,
 };
+
