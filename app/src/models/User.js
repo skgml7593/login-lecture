@@ -1,14 +1,16 @@
 "use strict";
 
+const {response} = require('express');
 const UserStroage = require("./UserStroage");
+
 class User{
     constructor(body){
         this.body = body;
     }
 
-    login(){
+    async login(){
         const client = this.body;
-        const {id, psword} = UserStroage.getUserInfo(client.id);
+        const {id, psword} = await UserStroage.getUserInfo(client.id); 
     
         if(id){
             if(id === client.id && psword === this.body.psword);{
@@ -22,6 +24,7 @@ class User{
     register(){
         const client = this.body;
         UserStroage.save(client); 
+        return response;
     }
 
 }

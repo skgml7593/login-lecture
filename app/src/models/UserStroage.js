@@ -1,15 +1,22 @@
 "use strict";
 
+const fs = require('fs').promises;
+
 class UserStroage{
-    // data를 은닉화 후 메서드로 전달
-    static #users = {
-        id: ["1234", "12345", "123"],
-        psword: ["1234", "12345","123"],
-        name: ["333", "3333", "444"],
-    };
+    static #getUserInfo(data, id){
+        const users = JSON.parse(data);
+        const idx = users.id.indexOf(id);
+        const usersKeys = Object.keys(users);
+        const userInfo = Object.keys(users).reduce((newUser, info)=>{
+            newUser[info] = users[info][idx];
+            return newUser;
+        }, {});
+        return userInfo;
+    }
 
     static getUsers(...fields){
-        const users = this.#users;
+        //const users = JSON.parse(data);
+        //const users = this.#users;
         const newUSers = fields.reduce((newUSers, fields)=>{
             if(users.hasOwnProperty(fields)){
                 newUSers[fields] = users[fields];
@@ -20,19 +27,24 @@ class UserStroage{
     }
 
     static getUserInfo(id){
-        const users = this.#users;
-        const idx = users.id.indexOf(id);
-        const usersKeys = Object.keys(users);
-        const userInfo = Object.keys(users).reduce((newUser, info)=>{
-            newUser[info] = users[info][idx];
-            return newUser;
-        }, {});
+        return fs.readFile("./src/databases/users.json")
+            .then((data) =>{
+                return this.#getUserInfo(data, id);
 
-        return userInfo;
+            })
+            .catch(console.error);
+
+        
     }
 
+   
+
     static save(userInfo){
-        return {success : true};
+       // const users = this.#users;
+        users.id.push(userInfo.id);
+        users.psword.push(userInfo.psword);
+        users.username.push(userInfo.username);
+        return {success: true};
     }
 
 }
