@@ -21,10 +21,14 @@ class User{
         return{success: false, msg: "존재하지 않는 아이디 입니다."};
     };
 
-    register(){
+    async register(){
         const client = this.body;
-        UserStroage.save(client); 
-        return response;
+        try {
+            const response =  await UserStroage.save(client); 
+            return response;          
+        } catch (err) {
+            console.log(err);
+        }
     }
 
 }

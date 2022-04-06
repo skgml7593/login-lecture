@@ -2,7 +2,7 @@
 
 // 문서 객체 모델
 const id  = document.querySelector("#id"),
-name = document.querySelector("#name"),
+username = document.querySelector("#username"),
 psword = document.querySelector("#psword"),
 confitmPsword = document.querySelector("#confirm-psword"),
 registerBtn = document.querySelector("#button");
@@ -17,7 +17,7 @@ function register(){
 
     const req = {
         id: id.value,
-        name: name.value,
+        username: username.value,
         psword : psword.value,
     }; 
 
